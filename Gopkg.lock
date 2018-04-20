@@ -21,6 +21,12 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/mitchellh/go-homedir"
+  packages = ["."]
+  revision = "b8bc1bf767474819792c23f32d8286a45736f1c6"
+
+[[projects]]
+  branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
   revision = "a2a45943ae67364d56c5d7d62dee78cff16c8dc8"
@@ -28,6 +34,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "20396be953eaf86647fc64a05112a3f43f266e36fc30edaad170c5bc57667e0b"
+  inputs-digest = "1bce744a5bd533b259e111b6afa02f5e4a4594bea87667473f0cb32e2678ed3f"
   solver-name = "gps-cdcl"
   solver-version = 1
