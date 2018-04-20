@@ -3,9 +3,12 @@ package storage
 import (
 	"encoding/binary"
 	"encoding/json"
-	"github.com/coreos/bbolt"
 	"log"
 	"time"
+
+	"github.com/coreos/bbolt"
+	"fmt"
+	homedir "github.com/mitchellh/go-homedir"
 )
 
 // TODO: externalize
@@ -41,7 +44,15 @@ func init() {
 }
 
 func createStore() (*Store, error) {
-	db, err := bolt.Open(dbPath, 0600, &bolt.Options{Timeout: 1 * time.Second})
+	homeDir, err := homedir.Dir()
+
+	if err != err {
+		log.Printf("Failed to resolve user's home dir, current directory will be used")
+
+		homeDir = ""
+	}
+
+	db, err := bolt.Open(fmt.Sprintf("%s/%s", homeDir, dbPath), 0600, &bolt.Options{Timeout: 1 * time.Second})
 
 	if err != nil {
 		return nil, err
