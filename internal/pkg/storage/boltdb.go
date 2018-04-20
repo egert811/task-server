@@ -2,10 +2,10 @@ package storage
 
 import (
 	"encoding/binary"
-	"github.com/coreos/bbolt"
-	"time"
 	"encoding/json"
+	"github.com/coreos/bbolt"
 	"log"
+	"time"
 )
 
 // TODO: externalize
@@ -30,7 +30,7 @@ type Store struct {
 // don't do this in production!
 var singletonStore *Store
 
-func init(){
+func init() {
 	var err error
 	singletonStore, err = createStore()
 
@@ -65,8 +65,7 @@ func createStore() (*Store, error) {
 	}, nil
 }
 
-
-func OpenStore() (*Store) {
+func OpenStore() *Store {
 	return singletonStore
 }
 

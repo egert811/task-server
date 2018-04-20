@@ -1,12 +1,12 @@
 package main
 
 import (
-	"log"
-	"os"
-	"os/signal"
 	"github.com/egert811/task-server/internal/app/server"
 	"github.com/egert811/task-server/internal/app/worker"
 	"github.com/egert811/task-server/internal/pkg/storage"
+	"log"
+	"os"
+	"os/signal"
 )
 
 func main() {

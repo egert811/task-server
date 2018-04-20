@@ -1,30 +1,29 @@
 package worker
 
 import (
-	"github.com/egert811/task-server/internal/pkg/storage"
-	"os/exec"
 	"bytes"
+	"github.com/egert811/task-server/internal/pkg/storage"
 	"log"
+	"os/exec"
 )
 
 type Worker struct {
 	store *storage.Store
-	in <- chan storage.TaskDBItem
+	in    <-chan storage.TaskDBItem
 }
 
-
-func NewWorker(in <- chan storage.TaskDBItem) (*Worker) {
+func NewWorker(in <-chan storage.TaskDBItem) *Worker {
 	return &Worker{
 		store: storage.OpenStore(),
-		in : in,
+		in:    in,
 	}
 }
 
-func (w* Worker) ExecuteAndPersist(){
+func (w *Worker) ExecuteAndPersist() {
 	for {
 		select {
-		case ti := <- w.in:
-			cmd := exec.Command("ls", "-alh")
+		case ti := <-w.in:
+			cmd := exec.Command(ti.CMD, ti.Args...)
 
 			var out bytes.Buffer
 			cmd.Stdout = &out
@@ -34,7 +33,7 @@ func (w* Worker) ExecuteAndPersist(){
 			}
 
 			w.store.AddTaskOutput(&storage.TaskOutputDBItem{
-				ID: ti.ID,
+				ID:     ti.ID,
 				Output: out.String(),
 			})
 		}

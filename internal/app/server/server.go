@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"strconv"
 
-	"time"
-	"fmt"
 	"context"
+	"fmt"
 	"github.com/egert811/task-server/internal/pkg/storage"
+	"time"
 )
 
 // server config, TODO: externalize
@@ -27,13 +27,13 @@ type Task struct {
 }
 
 type Server struct {
-	store *storage.Store
-	router *mux.Router
-	server *http.Server
-	workerChan chan <- storage.TaskDBItem
+	store      *storage.Store
+	router     *mux.Router
+	server     *http.Server
+	workerChan chan<- storage.TaskDBItem
 }
 
-func NewServer(workerChan chan <- storage.TaskDBItem) (*Server, error) {
+func NewServer(workerChan chan<- storage.TaskDBItem) (*Server, error) {
 	store := storage.OpenStore()
 
 	r := mux.NewRouter()
@@ -46,11 +46,10 @@ func NewServer(workerChan chan <- storage.TaskDBItem) (*Server, error) {
 		Handler:      r,
 	}
 
-
 	return &Server{
-		store: store,
-		router: r,
-		server: srv,
+		store:      store,
+		router:     r,
+		server:     srv,
 		workerChan: workerChan,
 	}, nil
 }
@@ -75,7 +74,6 @@ func (s *Server) Shutdown() error {
 	return s.server.Shutdown(ctx)
 }
 
-
 // http handlers
 func (s *Server) handleTaskPost(w http.ResponseWriter, r *http.Request) {
 	var t storage.TaskDBItem
@@ -87,7 +85,7 @@ func (s *Server) handleTaskPost(w http.ResponseWriter, r *http.Request) {
 		//render error an response here
 	}
 
-	go func() {
+	defer func() {
 		s.workerChan <- t
 	}()
 
