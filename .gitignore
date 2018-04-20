@@ -23,3 +23,5 @@
 /test/tests*
 /test/coverage*
 
+# embedded db
+*.db
