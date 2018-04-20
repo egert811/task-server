@@ -125,7 +125,7 @@ func (s *Store) GetTasks() ([]TaskDBItem, error) {
 }
 
 // Task output handlers
-func (s *Store) AddTaskOutput(t *TaskDBItem) error {
+func (s *Store) AddTaskOutput(t *TaskOutputDBItem) error {
 	return s.db.Update(func(tx *bolt.Tx) error {
 
 		b := tx.Bucket(dbTaskOutputBucket)
