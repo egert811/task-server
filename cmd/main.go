@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
-	"github.com/egert811/task-server/internal/app"
+	"github.com/egert811/task-server/internal/app/server"
 )
 
 func main() {

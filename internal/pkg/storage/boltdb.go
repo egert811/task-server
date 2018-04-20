@@ -7,17 +7,7 @@ import (
 	"encoding/json"
 )
 
-type TaskDBItem struct {
-	ID  int    `json:"id"`
-	CMD string `json:"cmd"`
-}
-
-type TaskOutputDBItem struct {
-	ID     int    `json:"-"`
-	Output string `json:"output"`
-}
-
-// TODO: externalize 
+// TODO: externalize
 var (
 	dbPath             string = "task.db"
 	dbTaskBucket       []byte = []byte("Tasks")
