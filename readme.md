@@ -3,13 +3,15 @@
 |Field|Type|Mandatory|Description|
 |id|number|yes|primary key|
 |cmd|string|yes|cmd to be executed|
+|args|string[]|no|cmd args|
 |output|string|no|cmd output|
 
 ```json
 {
     "task":{
         "id": 1,
-        "cmd": "ls -alh",
+        "cmd": "ls",
+        "args": ["-a","-l","-h"],
         "output": "...."
     }
 }
@@ -23,7 +25,7 @@ Adds a new task to the list
 $ curl -v -i \
    -H "Content-Type: application/json" \
    -X POST \
-   -d '{"cmd": "ls -alh"}' \
+   -d '{"cmd": "ls", "args":["-a", "-l", "-h"]}' \
    .../task
 
 HTTP/1.0 200 OK
@@ -31,7 +33,8 @@ HTTP/1.0 200 OK
 {
   "task": {
     "id": 1,
-    "cmd": "ls -alh"
+    "cmd": "ls",
+    "args": ["-a","-l","-h"],
   }
 }
 
@@ -51,15 +54,18 @@ HTTP/1.0 200 OK
 {
   "task":[{
     "id": 1,
-    "cmd": "ls -alh"
+    "cmd": "ls",
+    "args": ["-a","-l","-h"],
   },
   {
     "id": 2,
-    "cmd": "ls -alh"
+    "cmd": "ls",
+    "args": ["-a","-l","-h"],
   },
   {
     "id": 3,
-    "cmd": "ls -alh"
+    "cmd": "ls",
+    "args": ["-a","-l","-h"],
   }]
 }
 
@@ -79,7 +85,8 @@ HTTP/1.0 200 OK
 {
   "task":{
     "id": 1,
-    "cmd": "ls -alh",
+    "cmd": "ls",
+    "args": ["-a","-l","-h"],
     "output": ""
   }
 }
