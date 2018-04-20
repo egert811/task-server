@@ -20,19 +20,17 @@ func NewWorker(in <- chan storage.TaskDBItem) (*Worker) {
 	}
 }
 
-func (w* Worker) ExecuteAndPersist( in <- chan storage.TaskDBItem ){
+func (w* Worker) ExecuteAndPersist(){
 	for {
 		select {
 		case ti := <- w.in:
-			_ := ti
-
 			cmd := exec.Command("ls", "-alh")
 
 			var out bytes.Buffer
 			cmd.Stdout = &out
 			err := cmd.Run()
 			if err != nil {
-				log.Fatal(err)
+				log.Printf("Failed to execute cmd %s \n", err)
 			}
 
 			w.store.AddTaskOutput(&storage.TaskOutputDBItem{

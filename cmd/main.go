@@ -5,15 +5,15 @@ import (
 	"os"
 	"os/signal"
 	"github.com/egert811/task-server/internal/app/server"
+	"github.com/egert811/task-server/internal/app/worker"
+	"github.com/egert811/task-server/internal/pkg/storage"
 )
 
 func main() {
-	//var wait time.Duration
-	//flag.DurationVar(&wait, "graceful-timeout", time.Second*15, "the duration for which the server gracefully wait for existing connections to finish - e.g. 15s or 1m")
-	//flag.Parse()
+	commChan := make(chan storage.TaskDBItem)
 
-	//Server init
-	server, err := server.NewServer()
+	server, err := server.NewServer(commChan)
+	worker := worker.NewWorker(commChan)
 
 	if err != nil {
 		log.Fatalf("Failed to initialize server: %s", err)
@@ -24,6 +24,8 @@ func main() {
 			log.Fatalf("Failed to start server: %s", err)
 		}
 	}()
+
+	go worker.ExecuteAndPersist()
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)

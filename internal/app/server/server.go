@@ -30,9 +30,10 @@ type Server struct {
 	store *storage.Store
 	router *mux.Router
 	server *http.Server
+	workerChan chan <- storage.TaskDBItem
 }
 
-func NewServer() (*Server, error) {
+func NewServer(workerChan chan <- storage.TaskDBItem) (*Server, error) {
 	store := storage.OpenStore()
 
 	r := mux.NewRouter()
@@ -50,6 +51,7 @@ func NewServer() (*Server, error) {
 		store: store,
 		router: r,
 		server: srv,
+		workerChan: workerChan,
 	}, nil
 }
 
@@ -84,6 +86,10 @@ func (s *Server) handleTaskPost(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		//render error an response here
 	}
+
+	go func() {
+		s.workerChan <- t
+	}()
 
 	json.NewEncoder(w).Encode(t)
 }
