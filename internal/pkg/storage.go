@@ -17,6 +17,7 @@ type TaskOutputDBItem struct {
 	Output string `json:"output"`
 }
 
+// TODO: externalize 
 var (
 	dbPath             string = "task.db"
 	dbTaskBucket       []byte = []byte("Tasks")
