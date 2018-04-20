@@ -54,13 +54,34 @@ HTTP/1.0 200 OK
     "cmd": "ls -alh"
   },
   {
-    "id": 1,
+    "id": 2,
     "cmd": "ls -alh"
   },
   {
-    "id": 1,
+    "id": 3,
     "cmd": "ls -alh"
   }]
+}
+
+```
+
+#### GET /task/{id}
+
+Get the task details specified
+
+```bash
+$ curl -v -i \
+   -H "Content-Type: application/json" \
+   .../task/1
+
+HTTP/1.0 200 OK
+
+{
+  "task":{
+    "id": 1,
+    "cmd": "ls -alh",
+    "output": ""
+  }
 }
 
 ```
