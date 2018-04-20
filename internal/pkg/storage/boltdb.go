@@ -127,12 +127,7 @@ func (s *Store) GetTasks() ([]TaskDBItem, error) {
 // Task output handlers
 func (s *Store) AddTaskOutput(t *TaskOutputDBItem) error {
 	return s.db.Update(func(tx *bolt.Tx) error {
-
 		b := tx.Bucket(dbTaskOutputBucket)
-
-		//grap the next id
-		id, _ := b.NextSequence()
-		t.ID = int(id)
 
 		// Marshal user data into bytes.
 		buf, err := json.Marshal(t)
