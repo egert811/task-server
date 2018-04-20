@@ -33,12 +33,7 @@ type Server struct {
 }
 
 func NewServer() (*Server, error) {
-	//Server init
-	store, err := storage.OpenStore()
-
-	if err != nil {
-		return nil, err
-	}
+	store := storage.OpenStore()
 
 	r := mux.NewRouter()
 
