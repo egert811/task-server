@@ -5,6 +5,7 @@ import (
 	"github.com/coreos/bbolt"
 	"time"
 	"encoding/json"
+	"log"
 )
 
 // TODO: externalize
@@ -26,7 +27,20 @@ type Store struct {
 	db *bolt.DB
 }
 
-func OpenStore() (*Store, error) {
+// don't do this in production!
+var singletonStore *Store
+
+func init(){
+	var err error
+	singletonStore, err = createStore()
+
+	if err != nil {
+		log.Fatal("Failed to initilize BoltDB")
+	}
+
+}
+
+func createStore() (*Store, error) {
 	db, err := bolt.Open(dbPath, 0600, &bolt.Options{Timeout: 1 * time.Second})
 
 	if err != nil {
@@ -49,6 +63,11 @@ func OpenStore() (*Store, error) {
 	return &Store{
 		db: db,
 	}, nil
+}
+
+
+func OpenStore() (*Store) {
+	return singletonStore
 }
 
 // Task bucket handlers
